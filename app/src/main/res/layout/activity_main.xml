@@ -6,13 +6,66 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <FrameLayout
+        android:id="@+id/frameLayout00"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayoutSpacer"
+        android:layout_width="150px"
+        android:layout_height="75px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout00"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout02"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayoutSpacer"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout01"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toStartOf="@+id/frameLayoutSpacer"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutSpacer">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout10"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout00">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout12"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout01"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout02">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout11"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout10"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout01">
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
