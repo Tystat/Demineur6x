@@ -7,11 +7,81 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/frameLayout00"
+        android:id="@+id/frameLayout30"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout20"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayoutSpacer2">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout42"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout31"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout41">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout12"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout02"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout11">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout23"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout12"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout22">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout32"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout22"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout31">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout02"
         android:layout_width="150px"
         android:layout_height="150px"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout01">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout22"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout11"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout21">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout14"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout04"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout13">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout00"
+        android:layout_width="150px"
+        android:layout_height="150px">
 
     </FrameLayout>
 
@@ -25,7 +95,7 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout02"
+        android:id="@+id/frameLayout20"
         android:layout_width="150px"
         android:layout_height="150px"
         app:layout_constraintStart_toEndOf="@+id/frameLayoutSpacer"
@@ -34,16 +104,16 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout01"
+        android:id="@+id/frameLayout10"
         android:layout_width="150px"
         android:layout_height="150px"
-        app:layout_constraintStart_toStartOf="@+id/frameLayoutSpacer"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout00"
         app:layout_constraintTop_toBottomOf="@+id/frameLayoutSpacer">
 
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout10"
+        android:id="@+id/frameLayout01"
         android:layout_width="150px"
         android:layout_height="150px"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,11 +122,11 @@
     </FrameLayout>
 
     <FrameLayout
-        android:id="@+id/frameLayout12"
+        android:id="@+id/frameLayout21"
         android:layout_width="150px"
         android:layout_height="150px"
-        app:layout_constraintStart_toEndOf="@+id/frameLayout01"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout02">
+        app:layout_constraintStart_toEndOf="@+id/frameLayout10"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout20">
 
     </FrameLayout>
 
@@ -64,8 +134,116 @@
         android:id="@+id/frameLayout11"
         android:layout_width="150px"
         android:layout_height="150px"
-        app:layout_constraintStart_toEndOf="@+id/frameLayout10"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout01">
+        app:layout_constraintStart_toEndOf="@+id/frameLayout01"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout10">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayoutSpacer2"
+        android:layout_width="150px"
+        android:layout_height="75px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout20"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout40"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayoutSpacer2"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout03"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout02">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout04"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout03">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout13"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout03"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout12">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout24"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout13"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout23">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout31"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout21"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout30">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout33"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout23"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout32">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout34"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout24"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout33">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout41"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout30"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout40">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout43"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout32"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout42">
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/frameLayout44"
+        android:layout_width="150px"
+        android:layout_height="150px"
+        app:layout_constraintStart_toEndOf="@+id/frameLayout33"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout43">
 
     </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

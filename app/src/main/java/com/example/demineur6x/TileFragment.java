@@ -1,5 +1,6 @@
 package com.example.demineur6x;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,8 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-public class CaseFragment extends Fragment {
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.Text;
+
+import static android.content.Context.MODE_PRIVATE;
+
+public class TileFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "x";
     private static final String ARG_PARAM2 = "y";
@@ -19,14 +28,14 @@ public class CaseFragment extends Fragment {
     private int _x = -1;
     private int _y = -1;
     private ImageView imageViewForeground = null;
+    private TextView textViewNb = null;
 
-
-    public CaseFragment() {
+    public TileFragment() {
         // Required empty public constructor
     }
 
-    public static CaseFragment newInstance(int x, int y) {
-        CaseFragment fragment = new CaseFragment();
+    public static TileFragment newInstance(int x, int y) {
+        TileFragment fragment = new TileFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, x);
         args.putInt(ARG_PARAM2, y);
@@ -47,13 +56,14 @@ public class CaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_case, container, false);
+        return inflater.inflate(R.layout.fragment_tile, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         imageViewForeground = getView().findViewById(R.id.imageViewForeground);
-
+        textViewNb = getView().findViewById(R.id.textViewNb);
+        textViewNb.setText("  " + (_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
         imageViewForeground.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -64,15 +74,19 @@ public class CaseFragment extends Fragment {
         });
     }
 
-    public void setNearbyBombs(){
-
-    }
-
     public Boolean getBomb(){
         return _isBomb;
     }
 
-    public void setBomb(Boolean _set){
-        _isBomb = _set;
+    public void setBomb(Boolean set){
+        _isBomb = set;
+    }
+
+    public int getNearbyBombs(){
+        return _nearbyBombs;
+    }
+
+    public void setNearbyBombs(int nb){
+        _nearbyBombs = nb;
     }
 }
