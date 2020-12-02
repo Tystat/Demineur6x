@@ -129,7 +129,5 @@ public class MainActivity extends AppCompatActivity {
             try{_tileArray[x-1][y+1].setNearbyBombs(_tileArray[x-1][y+1].getNearbyBombs()+1);}catch(Exception e){}
             System.out.println("IMPAIR");
         }
-
-
     }
 }
