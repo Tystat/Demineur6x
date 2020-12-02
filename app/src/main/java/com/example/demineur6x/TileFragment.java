@@ -1,11 +1,14 @@
 package com.example.demineur6x;
 
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -61,17 +64,56 @@ public class TileFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        imageViewForeground = getView().findViewById(R.id.imageViewForeground);
         textViewNb = getView().findViewById(R.id.textViewNb);
         textViewNb.setText("  " + (_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
-        imageViewForeground.setOnClickListener(new View.OnClickListener()
+
+        // Disable click on transparent parts
+        imageViewForeground = getView().findViewById(R.id.imageViewForeground);
+        imageViewForeground.setDrawingCacheEnabled(true);
+        imageViewForeground.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(final View v, MotionEvent event) {
+                Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
+                int color = 0;
+                try {
+                    color = bmp.getPixel((int) event.getX(), (int) event.getY());
+                } catch (Exception e) {
+                    // e.printStackTrace();
+                }
+                if (color == Color.TRANSPARENT) {
+                    return true;
+                } else {
+                    switch (event.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            //do something here
+                            break;
+                        case MotionEvent.ACTION_OUTSIDE:
+                            break;
+                        case MotionEvent.ACTION_CANCEL:
+                            break;
+                        case MotionEvent.ACTION_MOVE:
+                            break;
+                        case MotionEvent.ACTION_SCROLL:
+                            break;
+                        case MotionEvent.ACTION_UP:
+                            imageViewForeground.setVisibility(View.INVISIBLE);
+                            break;
+                        default:
+                            break;
+                    }
+                    return true;
+
+                }
+            }
+        });
+       /* imageViewForeground.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 imageViewForeground.setVisibility(View.INVISIBLE);
             }
-        });
+        });*/
     }
 
     public Boolean getBomb(){
