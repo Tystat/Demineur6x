@@ -21,6 +21,8 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     private TileFragment[][] _tileArray;
@@ -58,34 +60,28 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         start.setOnClickListener(listener);
-/*
-        Random rand = new Random();
 
+        Random rand = new Random();
+/*
         setBomb(rand.nextInt(5),rand.nextInt(5));
         setBomb(rand.nextInt(5),rand.nextInt(5));
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
-
         _tileArray = createBoard(6,6);
+        setBomb(rand.nextInt(5),rand.nextInt(5));
+
     }
 
     public void setBomb(int x,int y){
         _tileArray[x][y].setBomb(Boolean.TRUE);
 
-        try{_tileArray[x+1][y].setNearbyBombs(_tileArray[x+1][y].getNearbyBombs()+1);}catch(Exception e){}
-        try{_tileArray[x-1][y].setNearbyBombs(_tileArray[x-1][y].getNearbyBombs()+1);}catch(Exception e){}
-        try{_tileArray[x][y-1].setNearbyBombs(_tileArray[x][y-1].getNearbyBombs()+1);}catch(Exception e){}
-        try{_tileArray[x][y+1].setNearbyBombs(_tileArray[x][y+1].getNearbyBombs()+1);}catch(Exception e){}
+        int[][] neighbors = getNeighborhood(x,y);
 
-        // On set des tiles différentes car selon la colonne les coordonnées des tiles adjacentes sont différentes
-        if(x%2==0){
-            try{_tileArray[x+1][y-1].setNearbyBombs(_tileArray[x+1][y-1].getNearbyBombs()+1);}catch(Exception e){}
-            try{_tileArray[x-1][y-1].setNearbyBombs(_tileArray[x-1][y-1].getNearbyBombs()+1);}catch(Exception e){}
-            System.out.println("PAIR");
-        } else {
-            try{_tileArray[x+1][y+1].setNearbyBombs(_tileArray[x+1][y+1].getNearbyBombs()+1);}catch(Exception e){}
-            try{_tileArray[x-1][y+1].setNearbyBombs(_tileArray[x-1][y+1].getNearbyBombs()+1);}catch(Exception e){}
-            System.out.println("IMPAIR");
+        for(int[] neighbor:neighbors) {
+            try{
+                _tileArray[neighbor[0]][neighbor[1]].setNearbyBombs(_tileArray[neighbor[0]][neighbor[1]].getNearbyBombs()+1);
+            }
+            catch(Exception e){}
         }
     }
 
@@ -200,16 +196,40 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void NTile(int x, int y){
-        if (!_tileArray[x+1][y].getCheck()){try{_tileArray[x+1][y].ClickImage();}catch(Exception e){}}
-        if (!_tileArray[x-1][y].getCheck()){try{_tileArray[x-1][y].ClickImage();}catch(Exception e){}}
-        if (!_tileArray[x][y-1].getCheck()){try{_tileArray[x][y-1].ClickImage();}catch(Exception e){}}
-        if (!_tileArray[x][y+1].getCheck()){try{_tileArray[x][y+1].ClickImage();}catch(Exception e){}}
-        if(x%2==0){
-            if (!_tileArray[x+1][y-1].getCheck()){try{_tileArray[x+1][y-1].ClickImage();}catch(Exception e){}}
-            if (!_tileArray[x-1][y-1].getCheck()){try{_tileArray[x-1][y-1].ClickImage();}catch(Exception e){}}
-        } else {
-            if (!_tileArray[x+1][y+1].getCheck()){try{_tileArray[x+1][y+1].ClickImage();}catch(Exception e){}}
-            if (!_tileArray[x-1][y+1].getCheck()){try{_tileArray[x-1][y+1].ClickImage();}catch(Exception e){}}
+        int[][] neighbors = getNeighborhood(x,y);
+
+        for(int[] neighbor:neighbors){
+            if (!_tileArray[neighbor[0]][neighbor[1]].getCheck()){
+                try{
+                    _tileArray[neighbor[0]][neighbor[1]].ClickImage();
+                }
+                catch(Exception e){}
+            }
         }
+    }
+
+    public int[][] getNeighborhood(int x,int y){
+        int[][] neighborhoodCoords = new int[6][2];
+        neighborhoodCoords[0][0]=x+1;
+        neighborhoodCoords[0][1]=y;
+        neighborhoodCoords[1][0]=x-1;
+        neighborhoodCoords[1][1]=y;
+        neighborhoodCoords[2][0]=x;
+        neighborhoodCoords[2][1]=y-1;
+        neighborhoodCoords[3][0]=x;
+        neighborhoodCoords[3][1]=y+1;
+
+        if(x%2==0){
+            neighborhoodCoords[4][0]=x+1;
+            neighborhoodCoords[4][1]=y-1;
+            neighborhoodCoords[5][0]=x-1;
+            neighborhoodCoords[5][1]=y-1;
+        } else {
+            neighborhoodCoords[4][0]=x+1;
+            neighborhoodCoords[4][1]=y+1;
+            neighborhoodCoords[5][0]=x-1;
+            neighborhoodCoords[5][1]=y+1;
+        }
+        return(neighborhoodCoords);
     }
 }
