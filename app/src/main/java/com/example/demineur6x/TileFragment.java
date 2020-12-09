@@ -106,7 +106,7 @@ public class TileFragment extends Fragment {
                 }
             }
         });
-       /* imageViewForeground.setOnClickListener(new View.OnClickListener()
+        /*imageViewForeground.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
