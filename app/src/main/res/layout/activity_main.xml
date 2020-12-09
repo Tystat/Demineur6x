@@ -8,6 +8,15 @@
     android:clipToPadding="false"
     tools:context=".MainActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/MainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="230dp"
+        tools:layout_editor_absoluteY="250dp">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <FrameLayout
         android:id="@+id/frameLayout30"
         android:layout_width="57.5dp"

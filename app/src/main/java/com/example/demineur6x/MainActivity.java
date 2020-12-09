@@ -1,6 +1,8 @@
 package com.example.demineur6x;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.FragmentManager;
 
 import android.content.SharedPreferences;
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+/*
         FragmentManager fm = getSupportFragmentManager();
         TileFragment fragment;
 
@@ -108,7 +110,9 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
         setBomb(rand.nextInt(5),rand.nextInt(5));
         setBomb(rand.nextInt(5),rand.nextInt(5));
+ */
 
+        createBoard(5,5);
     }
 
     public void setBomb(int x,int y){
@@ -128,6 +132,33 @@ public class MainActivity extends AppCompatActivity {
             try{_tileArray[x+1][y+1].setNearbyBombs(_tileArray[x+1][y+1].getNearbyBombs()+1);}catch(Exception e){}
             try{_tileArray[x-1][y+1].setNearbyBombs(_tileArray[x-1][y+1].getNearbyBombs()+1);}catch(Exception e){}
             System.out.println("IMPAIR");
+        }
+    }
+
+    public TileFragment[][] createBoard(int length, int height) {
+        TileFragment[][] board = new TileFragment[length][height];
+        FragmentManager fm = getSupportFragmentManager();
+
+        for(int x=0;x<length;x++){
+            for(int y=0;y<height;y++){
+                TileFragment frag = new TileFragment();
+                fm.beginTransaction().add(R.id.MainLayout, frag).commit();
+                _tileArray[x][y] = frag;
+            }
+        }
+
+        ConstraintLayout constraintLayout = findViewById(R.id.MainLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
+        for(int x=0;x<length;x++){
+            for(int y=0;y<height;y++) {
+                if (x % 2 == 0){
+                    constraintSet.connect(_tileArray[x][y].getId(), ConstraintSet.LEFT, _tileArray[x-1][y-1].getId(), ConstraintSet.RIGHT, 0);
+                } else {
+                    constraintSet.connect(_tileArray[x][y].getId(), ConstraintSet.LEFT, _tileArray[x-1][y].getId(), ConstraintSet.RIGHT, 0);
+                }
+                constraintSet.connect(_tileArray[x][y].getId(),ConstraintSet.TOP,_tileArray[x][y-1].getId(),ConstraintSet.TOP,0);
+                constraintSet.applyTo(constraintLayout);
+            }
         }
     }
 }
