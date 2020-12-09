@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.quicksettings.Tile;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -136,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
 
-        //createBoard(5,5);
+        createBoard(5,5);
     }
 
     public void setBomb(int x,int y){
@@ -159,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*public TileFragment[][] createBoard(int length, int height) {
+    public TileFragment[][] createBoard(int length, int height) {
         TileFragment[][] board = new TileFragment[length][height];
         FrameLayout[][] frameBoard = new FrameLayout[length][height];
 
@@ -198,7 +199,6 @@ public class MainActivity extends AppCompatActivity {
                     else
                         try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,frameBoard[x][y-1].getId(),ConstraintSet.BOTTOM,0);}catch(Exception e){}
                 }
-
                 constraintSet.applyTo(mainLayout);
             }
         }
@@ -206,16 +206,18 @@ public class MainActivity extends AppCompatActivity {
 
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction tm = fm.beginTransaction();
+
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++){
+                board[x][y] = new TileFragment();
                 tm.add(frameBoard[x][y].getId(), board[x][y]);
                 board[x][y] = new TileFragment();
-        }
             }
+        }
         tm.commitNow();
-
         return board;
-    }*/
+    }
+
     public class Calculation extends AsyncTask<Void,Integer,Void> {
         @Override
         protected void onPreExecute(){
@@ -223,14 +225,14 @@ public class MainActivity extends AppCompatActivity {
             timer.setProgress(0);
         }
         @Override
-            super.onProgressUpdate();
         protected void onProgressUpdate(Integer...values){
+            super.onProgressUpdate();
             timer.setProgress(values[0]);
         }
         @Override
         protected Void doInBackground(Void...params){
-                try{
             for(int i=0;i<=10;i++){
+                try{
                     Thread.sleep(1000L);
                 }catch (InterruptedException e){
                     e.printStackTrace();
