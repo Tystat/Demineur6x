@@ -161,4 +161,18 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    public void NTile(int x, int y){
+        try{_tileArray[x+1][y].ClickImage();}catch(Exception e){}
+        try{_tileArray[x-1][y].ClickImage();}catch(Exception e){}
+        try{_tileArray[x][y-1].ClickImage();}catch(Exception e){}
+        try{_tileArray[x][y+1].ClickImage();}catch(Exception e){}
+        if(x%2==0){
+            try{_tileArray[x+1][y-1].ClickImage();}catch(Exception e){}
+            try{_tileArray[x-1][y-1].ClickImage();}catch(Exception e){}
+        } else {
+            try{_tileArray[x+1][y+1].ClickImage();}catch(Exception e){}
+            try{_tileArray[x-1][y+1].ClickImage();}catch(Exception e){}
+        }
+    }
 }

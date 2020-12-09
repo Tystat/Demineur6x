@@ -116,6 +116,14 @@ public class TileFragment extends Fragment {
         });*/
     }
 
+    public void ClickImage(){
+        imageViewForeground = getView().findViewById(R.id.imageViewForeground);
+        imageViewForeground.setVisibility(View.INVISIBLE);
+        if(_nearbyBombs<=0){
+            ((MainActivity)getActivity()).NTile(_x,_y);
+        }
+    }
+
     public Boolean getBomb(){
         return _isBomb;
     }
