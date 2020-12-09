@@ -32,6 +32,7 @@ public class TileFragment extends Fragment {
     private int _y = -1;
     private ImageView imageViewForeground = null;
     private TextView textViewNb = null;
+    private Boolean _check = false;
 
     public TileFragment() {
         // Required empty public constructor
@@ -106,22 +107,19 @@ public class TileFragment extends Fragment {
                 }
             }
         });
-        /*imageViewForeground.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                imageViewForeground.setVisibility(View.INVISIBLE);
-            }
-        });*/
     }
 
     public void ClickImage(){
         imageViewForeground = getView().findViewById(R.id.imageViewForeground);
         imageViewForeground.setVisibility(View.INVISIBLE);
-        if(_nearbyBombs<=0){
+        if(_nearbyBombs<=0 && !_isBomb){
             ((MainActivity)getActivity()).NTile(_x,_y);
         }
+        _check=true;
+    }
+
+    public Boolean getCheck(){
+        return _check;
     }
 
     public Boolean getBomb(){
