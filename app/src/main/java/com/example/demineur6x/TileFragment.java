@@ -37,11 +37,11 @@ public class TileFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static TileFragment newInstance(int x, int y) {
+    public static TileFragment newInstance(int param1, int param2) {
         TileFragment fragment = new TileFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_PARAM1, x);
-        args.putInt(ARG_PARAM2, y);
+        args.putInt(ARG_PARAM1, param1);
+        args.putInt(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,7 +96,7 @@ public class TileFragment extends Fragment {
                         case MotionEvent.ACTION_SCROLL:
                             break;
                         case MotionEvent.ACTION_UP:
-                            imageViewForeground.setVisibility(View.INVISIBLE);
+                            ClickImage();
                             break;
                         default:
                             break;
