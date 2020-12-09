@@ -1,26 +1,44 @@
 package com.example.demineur6x;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
-import androidx.fragment.app.FragmentManager;
 
-import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
-
-import com.google.gson.Gson;
-
-import java.security.cert.TrustAnchor;
-import java.util.Random;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private TileFragment[][] _tileArray = new TileFragment[5][5];
+    private Button start;
+    private ProgressBar timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        timer= (ProgressBar) findViewById(R.id.timer);
+        start= (Button) findViewById(R.id.go);
+
+        timer.setProgress(0);
+        timer.setVisibility(View.GONE);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                timer.setVisibility(View.VISIBLE);
+                timer.setProgress(0);
+                switch (v.getId()){
+                    case R.id.go:
+                        new Calculation().execute();
+                        break;
+                }
+            }
+        };
+        start.setOnClickListener(listener);
 /*
         FragmentManager fm = getSupportFragmentManager();
         TileFragment fragment;
@@ -112,7 +130,8 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
 
-        createBoard(5,5);
+        //createBoard(5,5);
+
     }
 
     public void setBomb(int x,int y){
@@ -135,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public TileFragment[][] createBoard(int length, int height) {
+    /*public TileFragment[][] createBoard(int length, int height) {
         TileFragment[][] board = new TileFragment[length][height];
         FragmentManager fm = getSupportFragmentManager();
 
@@ -159,6 +178,35 @@ public class MainActivity extends AppCompatActivity {
                 constraintSet.connect(_tileArray[x][y].getId(),ConstraintSet.TOP,_tileArray[x][y-1].getId(),ConstraintSet.TOP,0);
                 constraintSet.applyTo(constraintLayout);
             }
+        }
+    }*/
+    public class Calculation extends AsyncTask<Void,Integer,Void> {
+        @Override
+        protected void onPreExecute(){
+            super.onPreExecute();
+            timer.setProgress(0);
+        }
+        @Override
+        protected void onProgressUpdate(Integer...values){
+            super.onProgressUpdate();
+            timer.setProgress(values[0]);
+        }
+        @Override
+        protected Void doInBackground(Void...params){
+            for(int i=0;i<=10;i++){
+                try{
+                    Thread.sleep(1000L);
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                publishProgress(i*10);
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void result){
+            super.onPostExecute(result);
+            timer.setVisibility(View.GONE);
         }
     }
 }
