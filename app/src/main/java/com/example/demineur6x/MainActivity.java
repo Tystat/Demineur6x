@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.media.TimedText;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.service.quicksettings.Tile;
@@ -14,13 +15,19 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
     private TileFragment[][] _tileArray = new TileFragment[5][5];
     private Button start;
     private ProgressBar timer;
+    private RadioGroup TimeChoice;
+    private TextView TimeLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,13 +36,18 @@ public class MainActivity extends AppCompatActivity {
 
         timer= (ProgressBar) findViewById(R.id.timer);
         start= (Button) findViewById(R.id.go);
+        TimeChoice = findViewById(R.id.TimeGroup);
+        TimeLeft=findViewById(R.id.TimeText);
 
         timer.setProgress(0);
         timer.setVisibility(View.GONE);
+        TimeLeft.setVisibility(View.GONE);
+
 
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TimeChoice.setVisibility(View.GONE);
                 timer.setVisibility(View.VISIBLE);
                 timer.setProgress(0);
                 switch (v.getId()){
@@ -231,13 +243,26 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void...params){
-            for(int i=0;i<=10;i++){
+            int Time = TimeChoice.indexOfChild(findViewById(TimeChoice.getCheckedRadioButtonId()));
+            int time=0;
+            switch (Time){
+                case 0:
+                    time=3;
+                    break;
+                case 1:
+                    time=5;
+                    break;
+                case 2:
+                    time=8;
+                    break;
+            }
+            for(int i=0;i<=time;i++){
                 try{
-                    Thread.sleep(1000L);
+                    Thread.sleep(time*100);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
-                publishProgress(i*10);
+                publishProgress(i*100/time);
             }
             return null;
         }
@@ -245,6 +270,10 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
             timer.setVisibility(View.GONE);
+            TimeLeft.setText("TEMPS ECOULE");
+            TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
+            TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
+            TimeLeft.setVisibility(View.VISIBLE);
         }
     }
 }
