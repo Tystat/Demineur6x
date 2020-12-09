@@ -1,10 +1,17 @@
 package com.example.demineur6x;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.service.quicksettings.Tile;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -130,8 +137,7 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
 
-        //createBoard(5,5);
-
+        createBoard(5,5);
     }
 
     public void setBomb(int x,int y){
@@ -154,32 +160,64 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    /*public TileFragment[][] createBoard(int length, int height) {
+    public TileFragment[][] createBoard(int length, int height) {
         TileFragment[][] board = new TileFragment[length][height];
-        FragmentManager fm = getSupportFragmentManager();
+        FrameLayout[][] frameBoard = new FrameLayout[length][height];
+
+        ConstraintLayout mainLayout = (ConstraintLayout)findViewById(R.id.MainLayout);
+        ConstraintSet constraintSet = new ConstraintSet();
 
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++){
-                TileFragment frag = new TileFragment();
-                fm.beginTransaction().add(R.id.MainLayout, frag).commit();
-                _tileArray[x][y] = frag;
+                frameBoard[x][y] = new FrameLayout(this);
+                frameBoard[x][y].setId(x*10+y);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(200,200);
+                frameBoard[x][y].setLayoutParams(params);
+                mainLayout.addView(frameBoard[x][y]);
             }
         }
 
-        ConstraintLayout constraintLayout = findViewById(R.id.MainLayout);
-        ConstraintSet constraintSet = new ConstraintSet();
+        constraintSet.clone(mainLayout);
+
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++) {
                 if (x % 2 == 0){
-                    constraintSet.connect(_tileArray[x][y].getId(), ConstraintSet.LEFT, _tileArray[x-1][y-1].getId(), ConstraintSet.RIGHT, 0);
+                    if(y==0) {
+                        try {constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.TOP, mainLayout.getId(), ConstraintSet.TOP, 0); } catch (Exception e) {}
+                        try {constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x - 1][y].getId(), ConstraintSet.RIGHT, 0);} catch (Exception e) {}
+                    }
+                    else {
+                        try {constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.TOP, frameBoard[x][y - 1].getId(), ConstraintSet.BOTTOM, 0);} catch (Exception e) {}
+                        try {constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x - 1][y - 1].getId(), ConstraintSet.RIGHT, 0);} catch (Exception e) {}
+                    }
+                    try{constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x-1][y-1].getId(), ConstraintSet.RIGHT, 0);}catch(Exception e){}
+
                 } else {
-                    constraintSet.connect(_tileArray[x][y].getId(), ConstraintSet.LEFT, _tileArray[x-1][y].getId(), ConstraintSet.RIGHT, 0);
+                    try{constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x-1][y].getId(), ConstraintSet.RIGHT, 0);}catch(Exception e){}
+                    if(y==0)
+                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,75);}catch(Exception e){}
+                    else
+                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,frameBoard[x][y-1].getId(),ConstraintSet.BOTTOM,0);}catch(Exception e){}
                 }
-                constraintSet.connect(_tileArray[x][y].getId(),ConstraintSet.TOP,_tileArray[x][y-1].getId(),ConstraintSet.TOP,0);
-                constraintSet.applyTo(constraintLayout);
+                constraintSet.applyTo(mainLayout);
             }
         }
-    }*/
+
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction tm = fm.beginTransaction();
+
+        for(int x=0;x<length;x++){
+            for(int y=0;y<height;y++){
+                board[x][y] = new TileFragment();
+                tm.add(frameBoard[x][y].getId(), board[x][y]);
+                board[x][y] = new TileFragment();
+            }
+        }
+        tm.commitNow();
+        return board;
+    }
+
     public class Calculation extends AsyncTask<Void,Integer,Void> {
         @Override
         protected void onPreExecute(){
