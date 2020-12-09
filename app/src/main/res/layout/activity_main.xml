@@ -25,18 +25,6 @@
             app:layout_constraintHorizontal_bias="0.344"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/TimeText"
-            android:layout_width="192dp"
-            android:layout_height="37dp"
-            android:layout_marginBottom="8dp"
-            android:textAlignment="center"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toTopOf="@+id/go"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:text="Temps restant" />
-
         <ProgressBar
             android:id="@+id/timer"
             style="?android:attr/progressBarStyleHorizontal"
@@ -44,8 +32,8 @@
             android:layout_height="43dp"
             android:layout_marginStart="94dp"
             android:layout_marginEnd="96dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/go"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/TimeGroup"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
@@ -56,7 +44,7 @@
             android:layout_height="32dp"
             android:layout_marginStart="33dp"
             android:layout_marginEnd="33dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toTopOf="@+id/go"
             app:layout_constraintEnd_toEndOf="parent"
@@ -67,31 +55,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="3 secondes" />
+                android:text="10 secondes" />
 
             <RadioButton
                 android:id="@+id/Time2"
-                android:layout_width="128dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="5 secondes" />
+                android:text="30 secondes" />
 
             <RadioButton
                 android:id="@+id/Time3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="8 secondes" />
+                android:text="60 secondes" />
         </RadioGroup>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/MainLayout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteY="1dp">
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/MainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false">
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

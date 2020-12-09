@@ -23,7 +23,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TileFragment[][] _tileArray = new TileFragment[5][5];
+    private TileFragment[][] _tileArray;
     private Button start;
     private ProgressBar timer;
     private RadioGroup TimeChoice;
@@ -59,89 +59,6 @@ public class MainActivity extends AppCompatActivity {
         };
         start.setOnClickListener(listener);
 /*
-        FragmentManager fm = getSupportFragmentManager();
-        TileFragment fragment;
-
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout00, fragment).commit();
-        _tileArray[0][0] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout01, fragment).commit();
-        _tileArray[0][1] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout02, fragment).commit();
-        _tileArray[0][2] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout03, fragment).commit();
-        _tileArray[0][3] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout04, fragment).commit();
-        _tileArray[0][4] = fragment;
-
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout10, fragment).commit();
-        _tileArray[1][0] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout11, fragment).commit();
-        _tileArray[1][1] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout12, fragment).commit();
-        _tileArray[1][2] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout13, fragment).commit();
-        _tileArray[1][3] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout14, fragment).commit();
-        _tileArray[1][4] = fragment;
-
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout20, fragment).commit();
-        _tileArray[2][0] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout21, fragment).commit();
-        _tileArray[2][1] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout22, fragment).commit();
-        _tileArray[2][2] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout23, fragment).commit();
-        _tileArray[2][3] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout24, fragment).commit();
-        _tileArray[2][4] = fragment;
-
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout30, fragment).commit();
-        _tileArray[3][0] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout31, fragment).commit();
-        _tileArray[3][1] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout32, fragment).commit();
-        _tileArray[3][2] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout33, fragment).commit();
-        _tileArray[3][3] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout34, fragment).commit();
-        _tileArray[3][4] = fragment;
-
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout40, fragment).commit();
-        _tileArray[4][0] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout41, fragment).commit();
-        _tileArray[4][1] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout42, fragment).commit();
-        _tileArray[4][2] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout43, fragment).commit();
-        _tileArray[4][3] = fragment;
-        fragment = new TileFragment();
-        fm.beginTransaction().add(R.id.frameLayout44, fragment).commit();
-        _tileArray[4][4] = fragment;
-
         Random rand = new Random();
 
         setBomb(rand.nextInt(5),rand.nextInt(5));
@@ -149,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
 
-        createBoard(5,5);
+        _tileArray = createBoard(6,6);
     }
 
     public void setBomb(int x,int y){
@@ -182,8 +99,10 @@ public class MainActivity extends AppCompatActivity {
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++){
                 frameBoard[x][y] = new FrameLayout(this);
-                frameBoard[x][y].setId(x*10+y);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(200,200);
+                frameBoard[x][y].setId(100+x*10+y);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(150,175);
+                frameBoard[x][y].setClipChildren(false);
+                frameBoard[x][y].setClipToPadding(false);
                 frameBoard[x][y].setLayoutParams(params);
                 mainLayout.addView(frameBoard[x][y]);
             }
@@ -207,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     try{constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x-1][y].getId(), ConstraintSet.RIGHT, 0);}catch(Exception e){}
                     if(y==0)
-                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,75);}catch(Exception e){}
+                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,88);}catch(Exception e){}
                     else
                         try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,frameBoard[x][y-1].getId(),ConstraintSet.BOTTOM,0);}catch(Exception e){}
                 }
@@ -221,9 +140,12 @@ public class MainActivity extends AppCompatActivity {
 
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++){
+                Bundle bundle = new Bundle();
+                bundle.putInt("x", x);
+                bundle.putInt("y", y);
                 board[x][y] = new TileFragment();
+                board[x][y].setArguments(bundle);
                 tm.add(frameBoard[x][y].getId(), board[x][y]);
-                board[x][y] = new TileFragment();
             }
         }
         tm.commitNow();
@@ -274,6 +196,20 @@ public class MainActivity extends AppCompatActivity {
             TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
             TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
             TimeLeft.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void NTile(int x, int y){
+        try{_tileArray[x+1][y].ClickImage();}catch(Exception e){}
+        try{_tileArray[x-1][y].ClickImage();}catch(Exception e){}
+        try{_tileArray[x][y-1].ClickImage();}catch(Exception e){}
+        try{_tileArray[x][y+1].ClickImage();}catch(Exception e){}
+        if(x%2==0){
+            try{_tileArray[x+1][y-1].ClickImage();}catch(Exception e){}
+            try{_tileArray[x-1][y-1].ClickImage();}catch(Exception e){}
+        } else {
+            try{_tileArray[x+1][y+1].ClickImage();}catch(Exception e){}
+            try{_tileArray[x-1][y+1].ClickImage();}catch(Exception e){}
         }
     }
 }
