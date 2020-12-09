@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
 
-        _tileArray = createBoard(5,5);
+        _tileArray = createBoard(6,6);
     }
 
     public void setBomb(int x,int y){
@@ -87,8 +87,10 @@ public class MainActivity extends AppCompatActivity {
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++){
                 frameBoard[x][y] = new FrameLayout(this);
-                frameBoard[x][y].setId(x*10+y);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(200,200);
+                frameBoard[x][y].setId(100+x*10+y);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(150,175);
+                frameBoard[x][y].setClipChildren(false);
+                frameBoard[x][y].setClipToPadding(false);
                 frameBoard[x][y].setLayoutParams(params);
                 mainLayout.addView(frameBoard[x][y]);
             }
@@ -112,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     try{constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x-1][y].getId(), ConstraintSet.RIGHT, 0);}catch(Exception e){}
                     if(y==0)
-                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,75);}catch(Exception e){}
+                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,88);}catch(Exception e){}
                     else
                         try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,frameBoard[x][y-1].getId(),ConstraintSet.BOTTOM,0);}catch(Exception e){}
                 }
