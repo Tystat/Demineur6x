@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
         _tileArray = createBoard(6,6);
-        setBomb(rand.nextInt(5),rand.nextInt(5));
+        setBomb(3,3);
 
     }
 
@@ -78,10 +78,8 @@ public class MainActivity extends AppCompatActivity {
         int[][] neighbors = getNeighborhood(x,y);
 
         for(int[] neighbor:neighbors) {
-            try{
+            if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length))
                 _tileArray[neighbor[0]][neighbor[1]].setNearbyBombs(_tileArray[neighbor[0]][neighbor[1]].getNearbyBombs()+1);
-            }
-            catch(Exception e){}
         }
     }
 
@@ -199,11 +197,9 @@ public class MainActivity extends AppCompatActivity {
         int[][] neighbors = getNeighborhood(x,y);
 
         for(int[] neighbor:neighbors){
-            if (!_tileArray[neighbor[0]][neighbor[1]].getCheck()){
-                try{
+            if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length)){
+                if (!_tileArray[neighbor[0]][neighbor[1]].getCheck())
                     _tileArray[neighbor[0]][neighbor[1]].ClickImage();
-                }
-                catch(Exception e){}
             }
         }
     }

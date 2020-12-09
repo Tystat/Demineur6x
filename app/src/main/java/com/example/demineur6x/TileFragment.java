@@ -33,6 +33,8 @@ public class TileFragment extends Fragment {
     private ImageView imageViewForeground = null;
     private TextView textViewNb = null;
     private Boolean _check = false;
+    private Boolean _flagged = false;
+    private Boolean _longPressing = false;
 
     public TileFragment() {
         // Required empty public constructor
@@ -68,9 +70,23 @@ public class TileFragment extends Fragment {
         textViewNb = getView().findViewById(R.id.textViewNb);
         textViewNb.setText("  " + (_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
 
-        // Disable click on transparent parts
+        // Disable click on transparent parts and handle press events
         imageViewForeground = getView().findViewById(R.id.imageViewForeground);
         imageViewForeground.setDrawingCacheEnabled(true);
+        imageViewForeground.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v){
+                _longPressing = true;
+                if(_flagged){
+                    _flagged = false;
+                    imageViewForeground.setImageDrawable(getResources().getDrawable(R.drawable.tile_foreground));
+                } else {
+                    _flagged = true;
+                    imageViewForeground.setImageDrawable(getResources().getDrawable(R.drawable.tile_foreground_flagged));
+                }
+                return true;
+            }
+        });
         imageViewForeground.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
@@ -78,15 +94,12 @@ public class TileFragment extends Fragment {
                 int color = 0;
                 try {
                     color = bmp.getPixel((int) event.getX(), (int) event.getY());
-                } catch (Exception e) {
-                    // e.printStackTrace();
-                }
+                } catch (Exception e) {}
                 if (color == Color.TRANSPARENT) {
                     return true;
                 } else {
                     switch (event.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            //do something here
                             break;
                         case MotionEvent.ACTION_OUTSIDE:
                             break;
@@ -97,12 +110,15 @@ public class TileFragment extends Fragment {
                         case MotionEvent.ACTION_SCROLL:
                             break;
                         case MotionEvent.ACTION_UP:
-                            ClickImage();
-                            break;
+                            if(_longPressing)
+                                _longPressing=false;
+                            else
+                                ClickImage();
+                            return true;
                         default:
                             break;
                     }
-                    return true;
+                    return false;
 
                 }
             }
@@ -110,11 +126,13 @@ public class TileFragment extends Fragment {
     }
 
     public void ClickImage(){
-        imageViewForeground = getView().findViewById(R.id.imageViewForeground);
-        imageViewForeground.setVisibility(View.INVISIBLE);
-        _check=true;
-        if(_nearbyBombs<=0 && !_isBomb){
-            //((MainActivity)getActivity()).NTile(_x,_y);
+        if(!_flagged){
+            imageViewForeground = getView().findViewById(R.id.imageViewForeground);
+            imageViewForeground.setVisibility(View.INVISIBLE);
+            _check=true;
+            if(_nearbyBombs<=0 && !_isBomb){
+                ((MainActivity)getActivity()).NTile(_x,_y);
+            }
         }
     }
 
