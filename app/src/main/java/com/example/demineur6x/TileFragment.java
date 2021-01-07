@@ -113,7 +113,7 @@ public class TileFragment extends Fragment {
                             if(_longPressing)
                                 _longPressing=false;
                             else
-                                ClickImage();
+                                ClickImage(false);
                             return true;
                         default:
                             break;
@@ -125,8 +125,8 @@ public class TileFragment extends Fragment {
         });
     }
 
-    public void ClickImage(){
-        if(!_flagged){
+    public void ClickImage(boolean force){
+        if(!_flagged || force){
             imageViewForeground = getView().findViewById(R.id.imageViewForeground);
             imageViewForeground.setVisibility(View.INVISIBLE);
             _check=true;
