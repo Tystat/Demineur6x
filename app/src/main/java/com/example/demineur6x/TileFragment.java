@@ -67,12 +67,15 @@ public class TileFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        //Once the view is created we setup the tile with the number of nearby bombs or a "B" if it's a bomb
         textViewNb = getView().findViewById(R.id.textViewNb);
         textViewNb.setText("  " + (_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
 
-        // Disable click on transparent parts and handle press events
+        // Disable click on transparent parts and manually handle press events
         imageViewForeground = getView().findViewById(R.id.imageViewForeground);
         imageViewForeground.setDrawingCacheEnabled(true);
+        // If the tile is long-pressed we set a flag
         imageViewForeground.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v){
@@ -112,6 +115,8 @@ public class TileFragment extends Fragment {
                         case MotionEvent.ACTION_UP:
                             if(_longPressing)
                                 _longPressing=false;
+                            else if(_flagged)
+                                return false;
                             else
                                 ClickImage();
                             return true;
@@ -125,13 +130,18 @@ public class TileFragment extends Fragment {
         });
     }
 
+    //Reveal the tile and handle the event linked to its state (bomb or empty tile)
     public void ClickImage(){
+        //We try to start the timer, in case this is the first tile pressed
         ((MainActivity)getActivity()).startTimer();
+        //If this tile is flagged we do nothing
         if(!_flagged){
-            ((MainActivity)getActivity()).decreaseRemaining();
+            //Reveal the tile
             imageViewForeground.setVisibility(View.INVISIBLE);
             _check=true;
+            //If it was an empty tile, we call the recursive function in the main
             if(_nearbyBombs<=0 && !_isBomb){
+                ((MainActivity)getActivity()).decreaseRemaining();
                 ((MainActivity)getActivity()).NTile(_x,_y);
             } else if (_isBomb) {
                 ((MainActivity)getActivity()).loose();
@@ -139,6 +149,7 @@ public class TileFragment extends Fragment {
         }
     }
 
+    //Reveal the tile without any other actions, used when loosing to reveal the board
     public void RevealImage(){
         imageViewForeground.setVisibility(View.INVISIBLE);
     }

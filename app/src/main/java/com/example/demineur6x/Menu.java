@@ -24,6 +24,11 @@ public class Menu extends AppCompatActivity {
         sizeChoice = findViewById(R.id.sizeGroup);
         startButton = findViewById(R.id.startButton);
 
+        //Select the default radiobuttons
+        bombeChoice.check(R.id.radioButton3);
+        sizeChoice.check(R.id.radioButton55);
+
+        //When clicking on start retreive the selected settings and start the game
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,13 +65,13 @@ public class Menu extends AppCompatActivity {
                         break;
                 }
 
-                //creating and initializing an Intent object
+                //creating and initializing an Intent object with the settings selected
                 Intent intent = new Intent(v.getContext(),MainActivity.class);
                 intent.putExtra("NBOMBS", nbBombes);
                 intent.putExtra("LENGTH", length);
                 intent.putExtra("HEIGHT", height);
 
-                //starting the activity
+                //starting the game with the settings
                 startActivity(intent);
             }
         });

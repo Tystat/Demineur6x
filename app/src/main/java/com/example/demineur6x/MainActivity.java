@@ -27,72 +27,82 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TileFragment[][] _tileArray;
-    private Button start;
-    public boolean timerStarted = false;
+    private TileFragment[][] tileArray;
     private ProgressBar timer;
     private RadioGroup TimeChoice;
     private TextView TimeLeft;
     private int remainingGoodTiles=1;
+
+    public boolean timerStarted = false;
+    public boolean won = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Play some background music
         MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
+        //Get the settings set from the menu
         Intent intent = getIntent();
         int nbBombes = intent.getIntExtra("NBOMBS",0);
         int length = intent.getIntExtra("LENGTH",0);
         int height = intent.getIntExtra("HEIGHT",0);
 
+        //Setup the timer GUI
         timer= (ProgressBar) findViewById(R.id.timer);
         TimeChoice = findViewById(R.id.TimeGroup);
         TimeLeft=findViewById(R.id.TimeText);
-
         timer.setProgress(0);
         timer.setVisibility(View.INVISIBLE);
         TimeLeft.setVisibility(View.INVISIBLE);
 
+        //Setup the board
         Random rand = new Random();
-/*
-        setBomb(rand.nextInt(5),rand.nextInt(5));
-        setBomb(rand.nextInt(5),rand.nextInt(5));
-        setBomb(rand.nextInt(5),rand.nextInt(5));
- */
-        _tileArray = createBoard(length,height);
+        tileArray = createBoard(length,height);
 
-        for(int i=0; i<nbBombes;i++)
-            setBomb(rand.nextInt(length),rand.nextInt(height));
-
+        for(int i=0; i<nbBombes;i++) {
+            //We need to be sure we don't put 2 bombs in the same tile, that's what the do-while does
+            int randX;
+            int randY;
+            do {
+                randX = rand.nextInt(length);
+                randY = rand.nextInt(height);
+            }
+            while(tileArray[randX][randY].getBomb());
+            setBomb(randX, randY);
+        }
         remainingGoodTiles=(length*height)-nbBombes;
-
         TimeChoice.check(R.id.Time3);
-
     }
 
+    //Set a bomb in the tile at coords x,y
     public void setBomb(int x,int y){
-        _tileArray[x][y].setBomb(Boolean.TRUE);
 
+
+        tileArray[x][y].setBomb(true);
+
+        //Get the neighbooring tiles and update their bomb number
         int[][] neighbors = getNeighborhood(x,y);
-
         for(int[] neighbor:neighbors) {
-            if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length))
-                _tileArray[neighbor[0]][neighbor[1]].setNearbyBombs(_tileArray[neighbor[0]][neighbor[1]].getNearbyBombs()+1);
+            //Check if the neighbor actually exist (useful when dealing with bordering tiles)
+            if((neighbor[0]>=0 && neighbor[0]<tileArray.length) && (neighbor[1]>=0 && neighbor[1]<tileArray[0].length))
+                tileArray[neighbor[0]][neighbor[1]].setNearbyBombs(tileArray[neighbor[0]][neighbor[1]].getNearbyBombs()+1);
         }
     }
 
+    //Create the game board
     public TileFragment[][] createBoard(int length, int height) {
         //Initialize tile board and frameLayout board
         TileFragment[][] board = new TileFragment[length][height];
         FrameLayout[][] frameBoard = new FrameLayout[length][height];
 
+        //Create all the frame layouts and set them up
         ConstraintLayout mainLayout = (ConstraintLayout)findViewById(R.id.MainLayout);
         ConstraintSet constraintSet = new ConstraintSet();
-
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++){
                 frameBoard[x][y] = new FrameLayout(this);
@@ -105,8 +115,8 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        //Set the constraints between frame layouts, we can't do that earlier as we need all frame layout to be created before constraining them
         constraintSet.clone(mainLayout);
-
         for(int x=0;x<length;x++){
             for(int y=0;y<height;y++) {
                 if (x % 2 == 0){
@@ -132,6 +142,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
+        //Creates the fragments (tiles) in the frame layouts
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction tm = fm.beginTransaction();
 
@@ -149,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
         return board;
     }
 
+    //Handle the timer
     public class Calculation extends AsyncTask<Void,Integer,Void> {
         @Override
         protected void onPreExecute(){
@@ -165,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
             timerStarted=true;
             int Time = TimeChoice.indexOfChild(findViewById(TimeChoice.getCheckedRadioButtonId()));
             int time=0;
+            //Get the time selected
             switch (Time){
                 case 0:
                     time=10;
@@ -177,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             // Start at one because we count after the first waiting period
-
             for(int i=1;i<=time;i++){
                 try{
                     Thread.sleep(1000);
@@ -193,20 +205,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
+            //Loose when the timer finish
             loose();
         }
     }
 
+    //Recursive function to reveal null tiles when clicking on one
     public void NTile(int x, int y){
         int[][] neighbors = getNeighborhood(x,y);
         for(int[] neighbor:neighbors){
-            if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length)){
-                if (!_tileArray[neighbor[0]][neighbor[1]].getCheck())
-                    _tileArray[neighbor[0]][neighbor[1]].ClickImage();
+            if((neighbor[0]>=0 && neighbor[0]<tileArray.length) && (neighbor[1]>=0 && neighbor[1]<tileArray[0].length)){
+                if (!tileArray[neighbor[0]][neighbor[1]].getCheck())
+                    tileArray[neighbor[0]][neighbor[1]].ClickImage();
             }
         }
     }
 
+    //Function returning an array of coordinates of the neighboring tiles
     public int[][] getNeighborhood(int x,int y){
         int[][] neighborhoodCoords = new int[6][2];
         neighborhoodCoords[0][0]=x+1;
@@ -218,6 +233,7 @@ public class MainActivity extends AppCompatActivity {
         neighborhoodCoords[3][0]=x;
         neighborhoodCoords[3][1]=y+1;
 
+        //As the tiles are hexagonal we need to check if the column is odd or even
         if(x%2==0){
             neighborhoodCoords[4][0]=x+1;
             neighborhoodCoords[4][1]=y-1;
@@ -232,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         return(neighborhoodCoords);
     }
 
+    //Start the timer
     public void startTimer(){
         if(!timerStarted) {
             TimeChoice.setVisibility(View.INVISIBLE);
@@ -241,22 +258,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Reveal all tiles and show a message informing the player he lost
     public void loose(){
-        for (TileFragment[] tileLine : _tileArray) {
-            for (TileFragment tile: tileLine) {
-                tile.RevealImage();
+        //Check if we won, in case the timer finish after the player win to avoid overriding the wining message
+        if(!won) {
+            for (TileFragment[] tileLine : tileArray) {
+                for (TileFragment tile : tileLine) {
+                    tile.RevealImage();
+                }
             }
+            timer.setVisibility(View.INVISIBLE);
+            TimeChoice.setVisibility(View.INVISIBLE);
+            TimeLeft.setText("PERDU !");
+            TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
+            TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
+            TimeLeft.setVisibility(View.VISIBLE);
         }
-        timer.setVisibility(View.INVISIBLE);
-        TimeChoice.setVisibility(View.INVISIBLE);
-        TimeLeft.setText("PERDU !");
-        TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
-        TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
-        TimeLeft.setVisibility(View.VISIBLE);
     }
 
+    //Show a message informing the player he won
     public void win(){
-
+        won = true;
         timer.setVisibility(View.INVISIBLE);
         TimeChoice.setVisibility(View.INVISIBLE);
         TimeLeft.setText("BRAVO !");
@@ -265,6 +287,7 @@ public class MainActivity extends AppCompatActivity {
         TimeLeft.setVisibility(View.VISIBLE);
     }
 
+    //Decrease the number of tile remaining to discorver before wining
     public void decreaseRemaining(){
         remainingGoodTiles--;
         if(remainingGoodTiles==0)
