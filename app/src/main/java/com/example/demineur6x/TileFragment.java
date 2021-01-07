@@ -113,7 +113,7 @@ public class TileFragment extends Fragment {
                             if(_longPressing)
                                 _longPressing=false;
                             else
-                                ClickImage(false);
+                                ClickImage();
                             return true;
                         default:
                             break;
@@ -125,15 +125,20 @@ public class TileFragment extends Fragment {
         });
     }
 
-    public void ClickImage(boolean force){
-        if(!_flagged || force){
-            imageViewForeground = getView().findViewById(R.id.imageViewForeground);
+    public void ClickImage(){
+        if(!_flagged){
             imageViewForeground.setVisibility(View.INVISIBLE);
             _check=true;
             if(_nearbyBombs<=0 && !_isBomb){
                 ((MainActivity)getActivity()).NTile(_x,_y);
+            } else if (_isBomb) {
+                ((MainActivity)getActivity()).loose();
             }
         }
+    }
+
+    public void RevealImage(){
+        imageViewForeground.setVisibility(View.INVISIBLE);
     }
 
     public Boolean getCheck(){

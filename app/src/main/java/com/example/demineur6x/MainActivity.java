@@ -189,7 +189,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result){
             super.onPostExecute(result);
-            timer.setVisibility(View.GONE);
             loose();
         }
     }
@@ -200,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
         for(int[] neighbor:neighbors){
             if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length)){
                 if (!_tileArray[neighbor[0]][neighbor[1]].getCheck())
-                    _tileArray[neighbor[0]][neighbor[1]].ClickImage(false);
+                    _tileArray[neighbor[0]][neighbor[1]].ClickImage();
             }
         }
     }
@@ -234,9 +233,11 @@ public class MainActivity extends AppCompatActivity {
         //foreach _tileArray clickImage(true)
         for (TileFragment[] tileLine : _tileArray) {
             for (TileFragment tile: tileLine) {
-                tile.ClickImage(true);
+                tile.RevealImage();
             }
         }
+        timer.setVisibility(View.GONE);
+        TimeChoice.setVisibility(View.GONE);
         TimeLeft.setText("PERDU");
         TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
         TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
