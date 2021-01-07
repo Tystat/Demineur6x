@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TileFragment[][] _tileArray;
     private Button start;
+    private boolean timerStarted = false;
     private ProgressBar timer;
     private RadioGroup TimeChoice;
     private TextView TimeLeft;
@@ -160,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void...params){
+            timerStarted=true;
             int Time = TimeChoice.indexOfChild(findViewById(TimeChoice.getCheckedRadioButtonId()));
             int time=0;
             switch (Time){
@@ -194,8 +196,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void NTile(int x, int y){
-        int[][] neighbors = getNeighborhood(x,y);
+        if(!timerStarted){
+            TimeChoice.setVisibility(View.GONE);
+            timer.setVisibility(View.VISIBLE);
+            timer.setProgress(0);
+            new Calculation().execute();
+        }
 
+
+        int[][] neighbors = getNeighborhood(x,y);
         for(int[] neighbor:neighbors){
             if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length)){
                 if (!_tileArray[neighbor[0]][neighbor[1]].getCheck())
