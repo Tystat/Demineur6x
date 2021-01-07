@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public TileFragment[][] createBoard(int length, int height) {
+        //Initialize tile board and frameLayout board
         TileFragment[][] board = new TileFragment[length][height];
         FrameLayout[][] frameBoard = new FrameLayout[length][height];
 
@@ -163,22 +164,25 @@ public class MainActivity extends AppCompatActivity {
             int time=0;
             switch (Time){
                 case 0:
-                    time=3;
+                    time=10;
                     break;
                 case 1:
-                    time=5;
+                    time=30;
                     break;
                 case 2:
-                    time=8;
+                    time=60;
                     break;
             }
-            for(int i=0;i<=time;i++){
+            // Start at one because we count after the first waiting period
+            for(int i=1;i<=time;i++){
                 try{
-                    Thread.sleep(time*100);
+                    Thread.sleep(1000);
                 }catch (InterruptedException e){
                     e.printStackTrace();
                 }
-                publishProgress(i*100/time);
+                // We do this because dividing int isn't working well
+                int progress = (int)(((float)i/(float)time)*100);
+                publishProgress(progress);
             }
             return null;
         }
