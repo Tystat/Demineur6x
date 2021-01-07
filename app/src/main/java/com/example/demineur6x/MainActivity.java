@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.media.TimedText;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -39,6 +40,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+
         Intent intent = getIntent();
         int nbBombes = intent.getIntExtra("NBOMBS",0);
         int length = intent.getIntExtra("LENGTH",0);
@@ -49,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         TimeLeft=findViewById(R.id.TimeText);
 
         timer.setProgress(0);
-        timer.setVisibility(View.GONE);
-        TimeLeft.setVisibility(View.GONE);
+        timer.setVisibility(View.INVISIBLE);
+        TimeLeft.setVisibility(View.INVISIBLE);
 
         Random rand = new Random();
 /*
