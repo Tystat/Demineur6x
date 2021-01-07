@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Menu">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="196dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="16dp"
+        android:text="HexaMineur"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sizeGroup" />
+
+    <RadioGroup
+        android:id="@+id/bombGroup"
+        android:layout_width="158dp"
+        android:layout_height="98dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <RadioButton
+            android:id="@+id/radioButton3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="3 bombes" />
+
+        <RadioButton
+            android:id="@+id/radioButton5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5 bombes" />
+
+        <RadioButton
+            android:id="@+id/radioButton7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="7 bombes" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/sizeGroup"
+        android:layout_width="158dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="64dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bombGroup" >
+
+        <RadioButton
+            android:id="@+id/radioButton55"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="5x5" />
+
+        <RadioButton
+            android:id="@+id/radioButton66"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6x6" />
+
+        <RadioButton
+            android:id="@+id/radioButton67"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="6x7" />
+    </RadioGroup>
+</androidx.constraintlayout.widget.ConstraintLayout>

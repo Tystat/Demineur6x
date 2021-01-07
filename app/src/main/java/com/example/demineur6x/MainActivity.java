@@ -6,6 +6,7 @@ import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.media.TimedText;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -27,18 +28,23 @@ public class MainActivity extends AppCompatActivity {
 
     private TileFragment[][] _tileArray;
     private Button start;
-    private boolean timerStarted = false;
+    public boolean timerStarted = false;
     private ProgressBar timer;
     private RadioGroup TimeChoice;
     private TextView TimeLeft;
+    private int remainingGoodTiles=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        int nbBombes = intent.getIntExtra("NBOMBS",0);
+        int length = intent.getIntExtra("LENGTH",0);
+        int height = intent.getIntExtra("HEIGHT",0);
+
         timer= (ProgressBar) findViewById(R.id.timer);
-        start= (Button) findViewById(R.id.go);
         TimeChoice = findViewById(R.id.TimeGroup);
         TimeLeft=findViewById(R.id.TimeText);
 
@@ -46,30 +52,20 @@ public class MainActivity extends AppCompatActivity {
         timer.setVisibility(View.GONE);
         TimeLeft.setVisibility(View.GONE);
 
-
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimeChoice.setVisibility(View.GONE);
-                timer.setVisibility(View.VISIBLE);
-                timer.setProgress(0);
-                switch (v.getId()){
-                    case R.id.go:
-                        new Calculation().execute();
-                        break;
-                }
-            }
-        };
-        start.setOnClickListener(listener);
-
         Random rand = new Random();
 /*
         setBomb(rand.nextInt(5),rand.nextInt(5));
         setBomb(rand.nextInt(5),rand.nextInt(5));
         setBomb(rand.nextInt(5),rand.nextInt(5));
  */
-        _tileArray = createBoard(6,6);
-        setBomb(3,3);
+        _tileArray = createBoard(length,height);
+
+        for(int i=0; i<nbBombes;i++)
+            setBomb(rand.nextInt(length),rand.nextInt(height));
+
+        remainingGoodTiles=(length*height)-nbBombes;
+
+        TimeChoice.check(R.id.Time3);
 
     }
 
@@ -176,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
             // Start at one because we count after the first waiting period
+
             for(int i=1;i<=time;i++){
                 try{
                     Thread.sleep(1000);
@@ -196,14 +193,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void NTile(int x, int y){
-        if(!timerStarted){
-            TimeChoice.setVisibility(View.GONE);
-            timer.setVisibility(View.VISIBLE);
-            timer.setProgress(0);
-            new Calculation().execute();
-        }
-
-
         int[][] neighbors = getNeighborhood(x,y);
         for(int[] neighbor:neighbors){
             if((neighbor[0]>=0 && neighbor[0]<_tileArray.length) && (neighbor[1]>=0 && neighbor[1]<_tileArray[0].length)){
@@ -238,18 +227,42 @@ public class MainActivity extends AppCompatActivity {
         return(neighborhoodCoords);
     }
 
+    public void startTimer(){
+        if(!timerStarted) {
+            TimeChoice.setVisibility(View.INVISIBLE);
+            timer.setVisibility(View.VISIBLE);
+            timer.setProgress(0);
+            new MainActivity.Calculation().execute();
+        }
+    }
+
     public void loose(){
-        //foreach _tileArray clickImage(true)
         for (TileFragment[] tileLine : _tileArray) {
             for (TileFragment tile: tileLine) {
                 tile.RevealImage();
             }
         }
-        timer.setVisibility(View.GONE);
-        TimeChoice.setVisibility(View.GONE);
-        TimeLeft.setText("PERDU");
+        timer.setVisibility(View.INVISIBLE);
+        TimeChoice.setVisibility(View.INVISIBLE);
+        TimeLeft.setText("PERDU !");
         TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
         TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
         TimeLeft.setVisibility(View.VISIBLE);
+    }
+
+    public void win(){
+
+        timer.setVisibility(View.INVISIBLE);
+        TimeChoice.setVisibility(View.INVISIBLE);
+        TimeLeft.setText("BRAVO !");
+        TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
+        TimeLeft.setVisibility(View.VISIBLE);
+    }
+
+    public void decreaseRemaining(){
+        remainingGoodTiles--;
+        if(remainingGoodTiles==0)
+            win();
     }
 }

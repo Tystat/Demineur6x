@@ -126,7 +126,9 @@ public class TileFragment extends Fragment {
     }
 
     public void ClickImage(){
+        ((MainActivity)getActivity()).startTimer();
         if(!_flagged){
+            ((MainActivity)getActivity()).decreaseRemaining();
             imageViewForeground.setVisibility(View.INVISIBLE);
             _check=true;
             if(_nearbyBombs<=0 && !_isBomb){
