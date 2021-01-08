@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     tools:context=".Menu">
 
     <TextView
@@ -13,6 +14,7 @@
         android:layout_marginTop="16dp"
         android:text="HexaMineur"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,19 +44,22 @@
             android:id="@+id/radioButton3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="3 bombes" />
+            android:text="3 bombes"
+            android:textColor="#FFFFFF" />
 
         <RadioButton
             android:id="@+id/radioButton5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5 bombes" />
+            android:text="5 bombes"
+            android:textColor="#FFFFFF" />
 
         <RadioButton
             android:id="@+id/radioButton7"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="7 bombes" />
+            android:text="7 bombes"
+            android:textColor="#FFFFFF" />
     </RadioGroup>
 
     <RadioGroup
@@ -64,24 +69,27 @@
         android:layout_marginTop="64dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bombGroup" >
+        app:layout_constraintTop_toBottomOf="@+id/bombGroup">
 
         <RadioButton
             android:id="@+id/radioButton55"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="5x5" />
+            android:text="5x5"
+            android:textColor="#FFFFFF" />
 
         <RadioButton
             android:id="@+id/radioButton66"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6x6" />
+            android:text="6x6"
+            android:textColor="#FFFFFF" />
 
         <RadioButton
             android:id="@+id/radioButton67"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="6x7" />
+            android:text="6x7"
+            android:textColor="#FFFFFF" />
     </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>

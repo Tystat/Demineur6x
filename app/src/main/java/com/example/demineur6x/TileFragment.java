@@ -82,10 +82,10 @@ public class TileFragment extends Fragment {
                 _longPressing = true;
                 if(_flagged){
                     _flagged = false;
-                    imageViewForeground.setImageDrawable(getResources().getDrawable(R.drawable.tile_foreground));
+                    imageViewForeground.setImageDrawable(getResources().getDrawable(R.drawable.tile_foreground_violet));
                 } else {
                     _flagged = true;
-                    imageViewForeground.setImageDrawable(getResources().getDrawable(R.drawable.tile_foreground_flagged));
+                    imageViewForeground.setImageDrawable(getResources().getDrawable(R.drawable.tile_foreground_flagged_violet));
                 }
                 return true;
             }
@@ -139,12 +139,16 @@ public class TileFragment extends Fragment {
             //Reveal the tile
             imageViewForeground.setVisibility(View.INVISIBLE);
             _check=true;
-            //If it was an empty tile, we call the recursive function in the main
+            //If it was an empty tile, we call the recursive function in the main and decrease the remaining tiles
             if(_nearbyBombs<=0 && !_isBomb){
                 ((MainActivity)getActivity()).decreaseRemaining();
                 ((MainActivity)getActivity()).NTile(_x,_y);
+            //If it was a bomb we loose
             } else if (_isBomb) {
                 ((MainActivity)getActivity()).loose();
+            //If it was a tile with a number we decrease the remaining tiles
+            } else {
+                ((MainActivity)getActivity()).decreaseRemaining();
             }
         }
     }

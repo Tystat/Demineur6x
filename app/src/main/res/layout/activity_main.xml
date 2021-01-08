@@ -2,11 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constrainLayoutMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient"
     android:clipChildren="false"
     android:clipToPadding="false"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/UILayout"
@@ -57,21 +59,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="10 secondes" />
+                android:text="10 secondes"
+                android:textColor="#FFFFFF" />
 
             <RadioButton
                 android:id="@+id/Time2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="30 secondes" />
+                android:text="30 secondes"
+                android:textColor="#FFFFFF" />
 
             <RadioButton
                 android:id="@+id/Time3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="60 secondes" />
+                android:text="60 secondes"
+                android:textColor="#FFFFFF" />
         </RadioGroup>
 
         <TextView

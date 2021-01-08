@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup TimeChoice;
     private TextView TimeLeft;
     private int remainingGoodTiles=1;
+    private MediaPlayer mediaPlayer;
 
     public boolean timerStarted = false;
     public boolean won = false;
@@ -41,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         //Play some background music
-        MediaPlayer mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop);
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop2);
         mediaPlayer.setLooping(true);
         mediaPlayer.start();
 
@@ -287,7 +289,7 @@ public class MainActivity extends AppCompatActivity {
         TimeLeft.setVisibility(View.VISIBLE);
     }
 
-    //Decrease the number of tile remaining to discorver before wining
+    //Decrease the number of tile remaining to discover before wining
     public void decreaseRemaining(){
         remainingGoodTiles--;
         if(remainingGoodTiles==0)
