@@ -17,6 +17,7 @@ public class Menu extends AppCompatActivity {
     private Button easyButton;
     private Button normalButton;
     private Button hardButton;
+    private MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,11 @@ public class Menu extends AppCompatActivity {
         //Select the default radiobuttons
         bombeChoice.check(R.id.radioButton3);
         sizeChoice.check(R.id.radioButton55);
+
+        //Play some background music
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop2);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
 
         //When clicking on start retreive the selected settings and start the custom game
         startButton.setOnClickListener(new View.OnClickListener() {

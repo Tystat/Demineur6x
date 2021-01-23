@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup TimeChoice;
     private TextView TimeLeft;
     private int remainingGoodTiles=1;
-    private MediaPlayer mediaPlayer;
     private boolean isCustom;
     private long startingTimestamp;
     private long gameLength;
@@ -47,11 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Play some background music
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop2);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
 
         //Get the settings set from the menu
         Intent intent = getIntent();

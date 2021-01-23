@@ -6,17 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.w3c.dom.Text;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.xml.transform.Templates;
 
 public class VictoryActivity extends AppCompatActivity {
 
@@ -24,14 +30,17 @@ public class VictoryActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     List<Long> listScores;
 
+    TextView difficultyText;
+    TextView score;
     ListView timeList;
-    Button restart;
     Button menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_victory);
+
+        difficultyText = findViewById(R.id.difficultyText);
 
         listScores = new ArrayList<Long>();
 
@@ -42,15 +51,19 @@ public class VictoryActivity extends AppCompatActivity {
         switch (difficulty){
             case 0:
                prefs = getSharedPreferences("ScoresEasy", MODE_PRIVATE);
+               difficultyText.setText("Mode Facile");
                break;
             case 1:
                 prefs = getSharedPreferences("ScoresNormal", MODE_PRIVATE);
+                difficultyText.setText("Mode Normal");
                 break;
             case 2:
                 prefs = getSharedPreferences("ScoresHard", MODE_PRIVATE);
+                difficultyText.setText("Mode Difficile");
                 break;
             default:
                 prefs = getSharedPreferences("ScoresEasy", MODE_PRIVATE);
+                difficultyText.setText("Mode Facile");
                 break;
         }
         listScores.add(prefs.getLong("SCORE0",25000));
@@ -68,6 +81,12 @@ public class VictoryActivity extends AppCompatActivity {
         Collections.sort(listScores);
 
         listScores.remove(10);
+        List<String> displayList= new ArrayList<>();
+
+        for(Long score : listScores){
+            String text = String.valueOf((int)(score/1000))+':'+score%1000;
+            displayList.add(text);
+        }
 
         editor = prefs.edit();
         editor.putLong("SCORE0", listScores.get(0));
@@ -83,12 +102,25 @@ public class VictoryActivity extends AppCompatActivity {
         editor.apply();
 
         timeList = findViewById(R.id.timeList);
-        restart = findViewById(R.id.restart);
         menu = findViewById(R.id.menu);
+        score = findViewById(R.id.score);
 
-        ArrayAdapter adapter = new ArrayAdapter<Long>(this,android.R.layout.simple_list_item_1,listScores);
+        if(gameLength==Long.MAX_VALUE) score.setText("Perdu");
+        else{
+        String text = String.valueOf((int)(gameLength/1000))+':'+String.valueOf(gameLength%1000);
+        score.setText(text);}
+
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,displayList);
         timeList.setAdapter(adapter);
 
-
+        menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //creating and initializing an Intent object
+                Intent intent = new Intent(v.getContext(), Menu.class);
+                //Going back to the menu
+                startActivity(intent);
+            }
+        });
     }
 }
