@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCustom;
     private long startingTimestamp;
     private long gameLength;
-    private int difficulty;
     private Button continueButton;
     private int difficulty;
 
