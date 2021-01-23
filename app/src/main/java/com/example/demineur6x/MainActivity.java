@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isCustom;
     private long startingTimestamp;
     private long gameLength;
+    private int difficulty;
     private Button continueButton;
     private int difficulty;
 
@@ -59,8 +60,8 @@ public class MainActivity extends AppCompatActivity {
         int length = intent.getIntExtra("LENGTH",0);
         int height = intent.getIntExtra("HEIGHT",0);
         isCustom = intent.getBooleanExtra("CUSTOM", false);
-        if(!isCustom) difficulty = intent.getIntExtra("DIFFICULTY", 0);
-
+        if(!isCustom)
+            difficulty = intent.getIntExtra("DIFFICULTY", 0);
         //Setup the timer GUI
         timer = (ProgressBar) findViewById(R.id.timer);
         TimeChoice = findViewById(R.id.TimeGroup);
@@ -323,13 +324,13 @@ public class MainActivity extends AppCompatActivity {
         if(isCustom) {
             timer.setVisibility(View.INVISIBLE);
             TimeChoice.setVisibility(View.INVISIBLE);
-            TimeLeft.setText("BRAVO !");
-            TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-            TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
-            TimeLeft.setVisibility(View.VISIBLE);
         } else {
             gameLength = System.currentTimeMillis() - startingTimestamp;
         }
+        TimeLeft.setText("BRAVO !");
+        TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+        TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
+        TimeLeft.setVisibility(View.VISIBLE);
     }
 
     //Decrease the number of tile remaining to discover before wining
