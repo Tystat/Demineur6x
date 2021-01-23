@@ -97,6 +97,7 @@ public class Menu extends AppCompatActivity {
                 intent.putExtra("LENGTH", length);
                 intent.putExtra("HEIGHT", height);
                 intent.putExtra("CUSTOM", false);
+                intent.putExtra("DIFFICULTY", 0);
 
                 //starting the game with the settings
                 startActivity(intent);
@@ -116,6 +117,7 @@ public class Menu extends AppCompatActivity {
                 intent.putExtra("LENGTH", length);
                 intent.putExtra("HEIGHT", height);
                 intent.putExtra("CUSTOM", false);
+                intent.putExtra("DIFFICULTY", 1);
 
                 //starting the game with the settings
                 startActivity(intent);
@@ -135,6 +137,7 @@ public class Menu extends AppCompatActivity {
                 intent.putExtra("LENGTH", length);
                 intent.putExtra("HEIGHT", height);
                 intent.putExtra("CUSTOM", false);
+                intent.putExtra("DIFFICULTY", 2);
 
                 //starting the game with the settings
                 startActivity(intent);

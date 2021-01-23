@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private long startingTimestamp;
     private long gameLength;
     private Button continueButton;
+    private int difficulty;
 
     public boolean timerStarted = false;
     public boolean won = false;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         int length = intent.getIntExtra("LENGTH",0);
         int height = intent.getIntExtra("HEIGHT",0);
         isCustom = intent.getBooleanExtra("CUSTOM", false);
+        if(!isCustom) difficulty = intent.getIntExtra("DIFFICULTY", 0);
 
         //Setup the timer GUI
         timer = (ProgressBar) findViewById(R.id.timer);
@@ -81,13 +83,14 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(v.getContext(), Menu.class);
                     //Going back to the menu
                     startActivity(intent);
-                } //else {
+                } else {
                     //creating and initializing an Intent object with the settings selected
-                    //Intent intent = new Intent(v.getContext(),VictoryActivity.class);
-                    //intent.putExtra("LENGTH", gameLength);
+                    Intent intent = new Intent(v.getContext(),VictoryActivity.class);
+                    intent.putExtra("LENGTH", gameLength);
+                    intent.putExtra("DIFFICULTY", difficulty);
                     //starting the game with the settings
-                    //startActivity(intent);
-                //}
+                    startActivity(intent);
+                }
             }
         });
 
