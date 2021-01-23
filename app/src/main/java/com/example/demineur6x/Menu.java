@@ -14,6 +14,9 @@ public class Menu extends AppCompatActivity {
     private RadioGroup bombeChoice;
     private RadioGroup sizeChoice;
     private Button startButton;
+    private Button easyButton;
+    private Button normalButton;
+    private Button hardButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +27,15 @@ public class Menu extends AppCompatActivity {
         sizeChoice = findViewById(R.id.sizeGroup);
         startButton = findViewById(R.id.startButton);
 
+        easyButton = findViewById(R.id.easyButton);
+        normalButton = findViewById(R.id.normalButton);
+        hardButton = findViewById(R.id.hardButton);
+
         //Select the default radiobuttons
         bombeChoice.check(R.id.radioButton3);
         sizeChoice.check(R.id.radioButton55);
 
-        //When clicking on start retreive the selected settings and start the game
+        //When clicking on start retreive the selected settings and start the custom game
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +77,64 @@ public class Menu extends AppCompatActivity {
                 intent.putExtra("NBOMBS", nbBombes);
                 intent.putExtra("LENGTH", length);
                 intent.putExtra("HEIGHT", height);
+                intent.putExtra("CUSTOM", true);
+
+                //starting the game with the settings
+                startActivity(intent);
+            }
+        });
+
+        easyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nbBombes = 3;
+                int length = 6;
+                int height = 7;
+
+                //creating and initializing an Intent object with the settings selected
+                Intent intent = new Intent(v.getContext(),MainActivity.class);
+                intent.putExtra("NBOMBS", nbBombes);
+                intent.putExtra("LENGTH", length);
+                intent.putExtra("HEIGHT", height);
+                intent.putExtra("CUSTOM", false);
+
+                //starting the game with the settings
+                startActivity(intent);
+            }
+        });
+
+        normalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nbBombes = 5;
+                int length = 6;
+                int height = 7;
+
+                //creating and initializing an Intent object with the settings selected
+                Intent intent = new Intent(v.getContext(),MainActivity.class);
+                intent.putExtra("NBOMBS", nbBombes);
+                intent.putExtra("LENGTH", length);
+                intent.putExtra("HEIGHT", height);
+                intent.putExtra("CUSTOM", false);
+
+                //starting the game with the settings
+                startActivity(intent);
+            }
+        });
+
+        hardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int nbBombes = 5;
+                int length = 5;
+                int height = 5;
+
+                //creating and initializing an Intent object with the settings selected
+                Intent intent = new Intent(v.getContext(),MainActivity.class);
+                intent.putExtra("NBOMBS", nbBombes);
+                intent.putExtra("LENGTH", length);
+                intent.putExtra("HEIGHT", height);
+                intent.putExtra("CUSTOM", false);
 
                 //starting the game with the settings
                 startActivity(intent);

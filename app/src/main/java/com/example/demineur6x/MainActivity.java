@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.sql.Timestamp;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView TimeLeft;
     private int remainingGoodTiles=1;
     private MediaPlayer mediaPlayer;
+    private boolean isCustom;
+    private long startingTimestamp;
+    private long gameLength;
+    private Button continueButton;
 
     public boolean timerStarted = false;
     public boolean won = false;
@@ -41,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         //Play some background music
         mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop2);
@@ -53,14 +57,39 @@ public class MainActivity extends AppCompatActivity {
         int nbBombes = intent.getIntExtra("NBOMBS",0);
         int length = intent.getIntExtra("LENGTH",0);
         int height = intent.getIntExtra("HEIGHT",0);
+        isCustom = intent.getBooleanExtra("CUSTOM", false);
 
         //Setup the timer GUI
-        timer= (ProgressBar) findViewById(R.id.timer);
+        timer = (ProgressBar) findViewById(R.id.timer);
         TimeChoice = findViewById(R.id.TimeGroup);
-        TimeLeft=findViewById(R.id.TimeText);
+        TimeLeft = findViewById(R.id.TimeText);
         timer.setProgress(0);
         timer.setVisibility(View.INVISIBLE);
         TimeLeft.setVisibility(View.INVISIBLE);
+        //If it is not a custom game we hide the timer
+        if(!isCustom)
+            TimeChoice.setVisibility(View.INVISIBLE);
+
+        //Setup the continue button
+        continueButton = findViewById(R.id.continueButton);
+        continueButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(isCustom) {
+                    //creating and initializing an Intent object
+                    Intent intent = new Intent(v.getContext(), Menu.class);
+                    //Going back to the menu
+                    startActivity(intent);
+                } //else {
+                    //creating and initializing an Intent object with the settings selected
+                    //Intent intent = new Intent(v.getContext(),VictoryActivity.class);
+                    //intent.putExtra("LENGTH", gameLength);
+                    //starting the game with the settings
+                    //startActivity(intent);
+                //}
+            }
+        });
 
         //Setup the board
         Random rand = new Random();
@@ -179,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
             timerStarted=true;
             int Time = TimeChoice.indexOfChild(findViewById(TimeChoice.getCheckedRadioButtonId()));
             int time=0;
+
             //Get the time selected
             switch (Time){
                 case 0:
@@ -252,7 +282,11 @@ public class MainActivity extends AppCompatActivity {
 
     //Start the timer
     public void startTimer(){
-        if(!timerStarted) {
+        // If we aren't in a custom game we just save the starting timestamp to calculate the length of the game
+        // Else we check if the timer is started and start it if not
+        if(!isCustom){
+            startingTimestamp = System.currentTimeMillis();
+        }else if(!timerStarted) {
             TimeChoice.setVisibility(View.INVISIBLE);
             timer.setVisibility(View.VISIBLE);
             timer.setProgress(0);
@@ -269,6 +303,7 @@ public class MainActivity extends AppCompatActivity {
                     tile.RevealImage();
                 }
             }
+            continueButton.setVisibility(View.VISIBLE);
             timer.setVisibility(View.INVISIBLE);
             TimeChoice.setVisibility(View.INVISIBLE);
             TimeLeft.setText("PERDU !");
@@ -281,12 +316,17 @@ public class MainActivity extends AppCompatActivity {
     //Show a message informing the player he won
     public void win(){
         won = true;
-        timer.setVisibility(View.INVISIBLE);
-        TimeChoice.setVisibility(View.INVISIBLE);
-        TimeLeft.setText("BRAVO !");
-        TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorGreen));
-        TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
-        TimeLeft.setVisibility(View.VISIBLE);
+        continueButton.setVisibility(View.VISIBLE);
+        if(isCustom) {
+            timer.setVisibility(View.INVISIBLE);
+            TimeChoice.setVisibility(View.INVISIBLE);
+            TimeLeft.setText("BRAVO !");
+            TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorGreen));
+            TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
+            TimeLeft.setVisibility(View.VISIBLE);
+        } else {
+            gameLength = System.currentTimeMillis() - startingTimestamp;
+        }
     }
 
     //Decrease the number of tile remaining to discover before wining
