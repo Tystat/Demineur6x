@@ -208,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
         }
         @Override
         protected Void doInBackground(Void...params){
-            timerStarted=true;
             int Time = TimeChoice.indexOfChild(findViewById(TimeChoice.getCheckedRadioButtonId()));
             int time=0;
 
@@ -287,13 +286,16 @@ public class MainActivity extends AppCompatActivity {
     public void startTimer(){
         // If we aren't in a custom game we just save the starting timestamp to calculate the length of the game
         // Else we check if the timer is started and start it if not
-        if(!isCustom){
-            startingTimestamp = System.currentTimeMillis();
-        }else if(!timerStarted) {
-            TimeChoice.setVisibility(View.INVISIBLE);
-            timer.setVisibility(View.VISIBLE);
-            timer.setProgress(0);
-            new MainActivity.Calculation().execute();
+        if(!timerStarted) {
+            timerStarted=true;
+            if(!isCustom) {
+                startingTimestamp = System.currentTimeMillis();
+            }else {
+                TimeChoice.setVisibility(View.INVISIBLE);
+                timer.setVisibility(View.VISIBLE);
+                timer.setProgress(0);
+                new MainActivity.Calculation().execute();
+            }
         }
     }
 
@@ -313,6 +315,7 @@ public class MainActivity extends AppCompatActivity {
             TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
             TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
             TimeLeft.setVisibility(View.VISIBLE);
+            gameLength = Long.MAX_VALUE;
         }
     }
 
@@ -324,7 +327,8 @@ public class MainActivity extends AppCompatActivity {
             timer.setVisibility(View.INVISIBLE);
             TimeChoice.setVisibility(View.INVISIBLE);
         } else {
-            gameLength = System.currentTimeMillis() - startingTimestamp;
+            long endTime = System.currentTimeMillis();
+            gameLength = endTime - startingTimestamp;
         }
         TimeLeft.setText("BRAVO !");
         TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorGreen));
