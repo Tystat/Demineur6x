@@ -15,8 +15,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".VictoryActivity"></activity>
+        <activity android:name=".MainActivity" android:resizeableActivity="false" android:maxAspectRatio="1.77777778" >
+        </activity>
+        <activity android:name=".VictoryActivity"/>
+        <meta-data android:name="android.max_aspect" android:value="1.77777778" />
     </application>
-
 </manifest>

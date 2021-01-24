@@ -136,12 +136,12 @@ public class MainActivity extends AppCompatActivity {
         //and tileHeight accordingly
         DisplayMetrics metrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-        float currentScreenRatio = ((float)metrics.widthPixels/(float)metrics.heightPixels);
-        float originalScreenRatio = (1080f/1920f);
-        float adaptiveRatio = originalScreenRatio/currentScreenRatio;
+        float currentScreenDensity = metrics.densityDpi;
+        float originalScreenDensity = 420;
+        float densityRatio = currentScreenDensity/originalScreenDensity;
 
-        float tileWidth = 135*adaptiveRatio;
-        float tileHeight = 157f*adaptiveRatio;
+        float tileWidth = 135f*densityRatio;
+        float tileHeight = 157f*densityRatio;
 
         //Create all the frame layouts and set them up
         ConstraintLayout mainLayout = (ConstraintLayout)findViewById(R.id.MainLayout);
@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
                 frameBoard[x][y] = new FrameLayout(this);
                 frameBoard[x][y].setId(100+x*10+y);
                 FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int)tileWidth,(int)tileHeight);
-                //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(170,198); //FOR GALAXY A8
                 frameBoard[x][y].setClipChildren(false);
                 frameBoard[x][y].setClipToPadding(false);
                 frameBoard[x][y].setLayoutParams(params);
@@ -178,7 +177,6 @@ public class MainActivity extends AppCompatActivity {
                     try{constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x-1][y].getId(), ConstraintSet.RIGHT, 0);}catch(Exception e){}
                     if(y==0)
                         try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,(int)tileHeight/2);}catch(Exception e){}
-                        //try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,99);}catch(Exception e){}
                     else
                         try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,frameBoard[x][y-1].getId(),ConstraintSet.BOTTOM,0);}catch(Exception e){}
                 }
