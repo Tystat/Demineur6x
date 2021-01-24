@@ -3,6 +3,7 @@ package com.example.demineur6x;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -17,7 +18,7 @@ public class Menu extends AppCompatActivity {
     private Button easyButton;
     private Button normalButton;
     private Button hardButton;
-    private MediaPlayer mediaPlayer;
+    private static MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +38,11 @@ public class Menu extends AppCompatActivity {
         sizeChoice.check(R.id.radioButton55);
 
         //Play some background music
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop2);
-        mediaPlayer.setLooping(true);
-        mediaPlayer.start();
+        if(mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.music_loop2);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
 
         //When clicking on start retreive the selected settings and start the custom game
         startButton.setOnClickListener(new View.OnClickListener() {
