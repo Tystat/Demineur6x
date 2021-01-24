@@ -12,6 +12,9 @@ import android.media.TimedText;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.service.quicksettings.Tile;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -128,6 +131,18 @@ public class MainActivity extends AppCompatActivity {
         TileFragment[][] board = new TileFragment[length][height];
         FrameLayout[][] frameBoard = new FrameLayout[length][height];
 
+        //Calculate the size of the tile, it's a bit hacky, the size was adjusted on a Pixel 2 and we
+        //compare the screen of the current device to the screen of the Pixel 2 and adjust tileWidth
+        //and tileHeight accordingly
+        DisplayMetrics metrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+        float currentScreenRatio = ((float)metrics.widthPixels/(float)metrics.heightPixels);
+        float originalScreenRatio = (1080f/1920f);
+        float adaptiveRatio = originalScreenRatio/currentScreenRatio;
+
+        float tileWidth = 135*adaptiveRatio;
+        float tileHeight = 157f*adaptiveRatio;
+
         //Create all the frame layouts and set them up
         ConstraintLayout mainLayout = (ConstraintLayout)findViewById(R.id.MainLayout);
         ConstraintSet constraintSet = new ConstraintSet();
@@ -135,7 +150,8 @@ public class MainActivity extends AppCompatActivity {
             for(int y=0;y<height;y++){
                 frameBoard[x][y] = new FrameLayout(this);
                 frameBoard[x][y].setId(100+x*10+y);
-                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(150,175);
+                FrameLayout.LayoutParams params = new FrameLayout.LayoutParams((int)tileWidth,(int)tileHeight);
+                //FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(170,198); //FOR GALAXY A8
                 frameBoard[x][y].setClipChildren(false);
                 frameBoard[x][y].setClipToPadding(false);
                 frameBoard[x][y].setLayoutParams(params);
@@ -161,7 +177,8 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     try{constraintSet.connect(frameBoard[x][y].getId(), ConstraintSet.LEFT, frameBoard[x-1][y].getId(), ConstraintSet.RIGHT, 0);}catch(Exception e){}
                     if(y==0)
-                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,88);}catch(Exception e){}
+                        try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,(int)tileHeight/2);}catch(Exception e){}
+                        //try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,mainLayout.getId(),ConstraintSet.TOP,99);}catch(Exception e){}
                     else
                         try{constraintSet.connect(frameBoard[x][y].getId(),ConstraintSet.TOP,frameBoard[x][y-1].getId(),ConstraintSet.BOTTOM,0);}catch(Exception e){}
                 }

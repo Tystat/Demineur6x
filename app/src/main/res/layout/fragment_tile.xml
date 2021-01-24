@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageViewBackground"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="67.5dp"
+        android:layout_height="67.5dp"
         android:clickable="false"
         android:src="@drawable/tile_background_violet"
         tools:layout_conversion_absoluteHeight="57dp"
@@ -25,7 +25,7 @@
         android:clickable="false"
         android:text="  2"
         android:textColor="#1A0061"
-        android:textSize="50sp"
+        android:textSize="45sp"
         android:textStyle="bold"
         tools:layout_conversion_absoluteHeight="49dp"
         tools:layout_conversion_absoluteWidth="39dp"
@@ -34,8 +34,8 @@
 
     <ImageView
         android:id="@+id/imageViewForeground"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
+        android:layout_width="67.5dp"
+        android:layout_height="67.5dp"
         android:src="@drawable/tile_foreground_violet"
         tools:layout_conversion_absoluteHeight="57dp"
         tools:layout_conversion_absoluteWidth="57dp"
