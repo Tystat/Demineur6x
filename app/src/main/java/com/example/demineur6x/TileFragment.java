@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +34,7 @@ public class TileFragment extends Fragment {
     private int _x = -1;
     private int _y = -1;
     private ImageView imageViewForeground = null;
+    private ImageView boom = null;
     private TextView textViewNb = null;
     private Boolean _check = false;
     private Boolean _flagged = false;
@@ -74,6 +78,8 @@ public class TileFragment extends Fragment {
 
         // Disable click on transparent parts and manually handle press events
         imageViewForeground = getView().findViewById(R.id.imageViewForeground);
+        boom = getView().findViewById(R.id.boom);
+
         imageViewForeground.setDrawingCacheEnabled(true);
         // If the tile is long-pressed we set a flag
         imageViewForeground.setOnLongClickListener(new View.OnLongClickListener() {
@@ -145,6 +151,8 @@ public class TileFragment extends Fragment {
                 ((MainActivity)getActivity()).NTile(_x,_y);
             //If it was a bomb we loose
             } else if (_isBomb) {
+                boom.setVisibility(View.VISIBLE);
+                boomAnimation();
                 ((MainActivity)getActivity()).loose();
             //If it was a tile with a number we decrease the remaining tiles
             } else {
@@ -156,6 +164,15 @@ public class TileFragment extends Fragment {
     //Reveal the tile without any other actions, used when loosing to reveal the board
     public void RevealImage(){
         imageViewForeground.setVisibility(View.INVISIBLE);
+    }
+
+    public void boomAnimation() {
+        Animation animation = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f); //to change visibility from visible to invisible
+        animation.setDuration(200); //1 second duration for each animation cycle
+        animation.setInterpolator(new LinearInterpolator());
+        animation.setRepeatCount(3); //repeating 5 times
+        animation.setRepeatMode(Animation.REVERSE); //animation will start from end point once ended.
+        boom.startAnimation(animation); //to start animation
     }
 
     public Boolean getCheck(){
