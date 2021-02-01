@@ -44,7 +44,7 @@ public class Menu extends AppCompatActivity {
             mediaPlayer.start();
         }
 
-        //When clicking on start retreive the selected settings and start the custom game
+        //When clicking on start retrieve the selected settings and start the custom game
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,9 +93,10 @@ public class Menu extends AppCompatActivity {
             }
         });
 
+        //Starting ranked games
         easyButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {   //Easy mode
                 int nbBombes = 3;
                 int length = 6;
                 int height = 7;
@@ -115,7 +116,7 @@ public class Menu extends AppCompatActivity {
 
         normalButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {   //Normal Mode
                 int nbBombes = 5;
                 int length = 6;
                 int height = 7;
@@ -135,7 +136,7 @@ public class Menu extends AppCompatActivity {
 
         hardButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) {   //Hard Mode
                 int nbBombes = 5;
                 int length = 5;
                 int height = 5;

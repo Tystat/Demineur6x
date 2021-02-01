@@ -76,12 +76,13 @@ public class TileFragment extends Fragment {
         textViewNb = getView().findViewById(R.id.textViewNb);
         textViewNb.setText(""+(_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
 
-        // Disable click on transparent parts and manually handle press events
-        imageViewForeground = getView().findViewById(R.id.imageViewForeground);
         boom = getView().findViewById(R.id.boom);
 
+        // Disable click on transparent parts and manually handle press events
+        imageViewForeground = getView().findViewById(R.id.imageViewForeground);
         imageViewForeground.setDrawingCacheEnabled(true);
         // If the tile is long-pressed we set a flag
+        // We need to redefine the long click because we redefine the onTouch listener to disable click on transparent parts
         imageViewForeground.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v){
@@ -99,6 +100,7 @@ public class TileFragment extends Fragment {
         imageViewForeground.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(final View v, MotionEvent event) {
+                // We check if the clicked pixel is transparent, if so we return, else we handle the click
                 Bitmap bmp = Bitmap.createBitmap(v.getDrawingCache());
                 int color = 0;
                 try {
@@ -166,11 +168,12 @@ public class TileFragment extends Fragment {
         imageViewForeground.setVisibility(View.INVISIBLE);
     }
 
+    //Start an animation of 0.6 sec for the explosion of a bomb
     public void boomAnimation() {
         Animation animation = new ScaleAnimation(0, 1, 0, 1, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f); //to change visibility from visible to invisible
-        animation.setDuration(200); //1 second duration for each animation cycle
+        animation.setDuration(200); //0.2 second duration for each animation cycle
         animation.setInterpolator(new LinearInterpolator());
-        animation.setRepeatCount(3); //repeating 5 times
+        animation.setRepeatCount(3); //repeating 3 times
         animation.setRepeatMode(Animation.REVERSE); //animation will start from end point once ended.
         boom.startAnimation(animation); //to start animation
     }

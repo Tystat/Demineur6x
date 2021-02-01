@@ -44,11 +44,12 @@ public class VictoryActivity extends AppCompatActivity {
 
         listScores = new ArrayList<Long>();
 
+        //Retrieve difficulty and game length
         Intent intent = getIntent();
         long gameLength = intent.getLongExtra("LENGTH",0);
         int difficulty = intent.getIntExtra("DIFFICULTY", 0);
 
-        switch (difficulty){
+        switch (difficulty){ //get scoreboard for the corresponding difficulty
             case 0:
                prefs = getSharedPreferences("ScoresEasy", MODE_PRIVATE);
                difficultyText.setText("Mode Facile");
@@ -66,6 +67,7 @@ public class VictoryActivity extends AppCompatActivity {
                 difficultyText.setText("Mode Facile");
                 break;
         }
+        //Populate the score list with the shared setting scoreboard with some default value if there is no scores yet
         listScores.add(prefs.getLong("SCORE0",25000));
         listScores.add(prefs.getLong("SCORE1",30000));
         listScores.add(prefs.getLong("SCORE2",35000));
@@ -77,17 +79,20 @@ public class VictoryActivity extends AppCompatActivity {
         listScores.add(prefs.getLong("SCORE8",65000));
         listScores.add(prefs.getLong("SCORE9",70000));
 
+        //We add the user's score to the list, sort it and keep the 10 bests
         listScores.add(gameLength);
         Collections.sort(listScores);
 
         listScores.remove(10);
         List<String> displayList= new ArrayList<>();
 
+        //We format the score (time) to be easily readable
         for(Long score : listScores){
             String text = String.valueOf((int)(score/1000))+':'+score%1000;
             displayList.add(text);
         }
 
+        //We update our shared setting with the new top 10 best times
         editor = prefs.edit();
         editor.putLong("SCORE0", listScores.get(0));
         editor.putLong("SCORE1", listScores.get(1));
@@ -105,7 +110,9 @@ public class VictoryActivity extends AppCompatActivity {
         menu = findViewById(R.id.menu);
         score = findViewById(R.id.score);
 
+        //If the value of the game length correspond to the max value of a long, we detect loose
         if(gameLength==Long.MAX_VALUE) score.setText("Perdu");
+        //Else we show the game length
         else{
         String text = String.valueOf((int)(gameLength/1000))+':'+String.valueOf(gameLength%1000);
         score.setText(text);}
@@ -113,6 +120,7 @@ public class VictoryActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,displayList);
         timeList.setAdapter(adapter);
 
+        //Button to go back to the menu
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

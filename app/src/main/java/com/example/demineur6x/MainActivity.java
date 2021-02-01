@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(v.getContext(),VictoryActivity.class);
                     intent.putExtra("LENGTH", gameLength);
                     intent.putExtra("DIFFICULTY", difficulty);
-                    //starting the game with the settings
+                    //launching scoreboard
                     startActivity(intent);
                 }
             }
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
         tileArray[x][y].setBomb(true);
 
-        //Get the neighbooring tiles and update their bomb number
+        //Get the neighboring tiles and update their bomb number
         int[][] neighbors = getNeighborhood(x,y);
         for(int[] neighbor:neighbors) {
             //Check if the neighbor actually exist (useful when dealing with bordering tiles)
@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
     //Recursive function to reveal null tiles when clicking on one
     public void NTile(int x, int y){
         int[][] neighbors = getNeighborhood(x,y);
+        //foreach possible neighbor check if it exists and if so, simulate a click on it
         for(int[] neighbor:neighbors){
             if((neighbor[0]>=0 && neighbor[0]<tileArray.length) && (neighbor[1]>=0 && neighbor[1]<tileArray[0].length)){
                 if (!tileArray[neighbor[0]][neighbor[1]].getCheck())
@@ -308,7 +309,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Reveal all tiles and show a message informing the player he lost
+    //Reveal all tiles and show a message informing the player they lost
     public void loose(){
         //Check if we won, in case the timer finish after the player win to avoid overriding the wining message
         if(!won) {
@@ -324,11 +325,11 @@ public class MainActivity extends AppCompatActivity {
             TimeLeft.setBackgroundColor(getResources().getColor(R.color.colorRed));
             TimeLeft.setTextColor(getResources().getColor(R.color.colorWhite));
             TimeLeft.setVisibility(View.VISIBLE);
-            gameLength = Long.MAX_VALUE;
+            gameLength = Long.MAX_VALUE; //if we loose, we set the game length to the max value of a long to check it later
         }
     }
 
-    //Show a message informing the player he won
+    //Show a message informing the player they won and compute the game length for ranked mode
     public void win(){
         won = true;
         continueButton.setVisibility(View.VISIBLE);
