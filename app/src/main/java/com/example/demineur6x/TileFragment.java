@@ -74,7 +74,7 @@ public class TileFragment extends Fragment {
 
         //Once the view is created we setup the tile with the number of nearby bombs or a "B" if it's a bomb
         textViewNb = getView().findViewById(R.id.textViewNb);
-        textViewNb.setText("  " + (_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
+        textViewNb.setText(""+(_isBomb ? "B" : (_nearbyBombs == 0 ? "":_nearbyBombs)));
 
         // Disable click on transparent parts and manually handle press events
         imageViewForeground = getView().findViewById(R.id.imageViewForeground);

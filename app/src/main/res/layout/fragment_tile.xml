@@ -20,10 +20,11 @@
 
     <TextView
         android:id="@+id/textViewNb"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="67.5dp"
+        android:layout_height="67.5dp"
         android:clickable="false"
-        android:text="  2"
+        android:text="2"
+        android:textAlignment="center"
         android:textColor="#1A0061"
         android:textSize="45sp"
         android:textStyle="bold"
